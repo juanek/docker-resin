@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 ENV TZ=America/Argentina/Buenos_Aires
 
@@ -6,28 +6,28 @@ RUN apt-get update && apt-get -y install tzdata
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN dpkg-reconfigure --frontend noninteractive tzdata
 
-#Install Open JDK 8
+#Install Open JDK 17
 #build-essential to compile with gcc
 #wget download caucho resin
 RUN apt-get update \
-    && apt-get -y install build-essential openjdk-8-jdk\
+    && apt-get -y install build-essential openjdk-17-jdk\
     && apt-get -y --no-install-recommends install \
     && rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
+ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
 ENV PATH $JAVA_HOME/bin:$PATH
 
 #Install Resin 4
 ENV PATH_BASE=/opt/juanek
 ENV PATH_RESIN=$PATH_BASE/resin
-ENV RESIN_VER=4.0.65
+ENV RESIN_VER=4.0.66
 
 RUN mkdir -p /opt/juanek
-ADD http://caucho.com/download/resin-4.0.65.tar.gz .
-RUN tar -vzxf resin-4.0.65.tar.gz
-RUN mv resin-4.0.65 /opt/juanek/resin
+ADD http://caucho.com/download/resin-4.0.66.tar.gz .
+RUN tar -vzxf resin-4.0.66.tar.gz
+RUN mv resin-4.0.66 /opt/juanek/resin
 RUN cd /opt/juanek/resin && ./configure --prefix=/opt/juanek/resin && make && make install
-#delete resin-4.0.65 y resin-4.0.65.tar.gz
+#delete resin-4.0.66 y resin-4.0.66.tar.gz
 
 #resinctl generate-password my-user my-password >> /opt/juanek/resin/conf/resin.properties
 RUN echo "admin_user: admin" >> /opt/juanek/resin/conf/resin.properties

@@ -1,0 +1,37 @@
+docker build -t ubuntu22-jdk17:1 .
+
+Step 21/21 : CMD ["resinctl","start-with-foreground"]
+ ---> Running in e9f379ac4ceb
+Removing intermediate container e9f379ac4ceb
+ ---> f92fc3328dd7
+Successfully built f92fc3328dd7
+Successfully tagged ubuntu22-jdk17:1
+
+
+docker run --name dockerResin466 -itd -p 8080:8080 ubuntu22-jdk17:1
+
+docker exec -it dockerResin466 /bin/bash resinctl status
+
+docker-resin (jdk17) docker run --name dockerResin466 -itd -p 8080:8080 ubuntu22-jdk17:1                                                                                ✭
+9e71c73cde313dc9c9a40d02480aae8b74b5a163eee0714e205474d65c929cc4
+➜  docker-resin (jdk17) docker exec -it dockerResin466 /bin/bash resinctl status                                                                                         ✭ ✱
+Resin/4.0.66 status for watchdog at 127.0.0.1:6600
+
+watchdog:
+  watchdog-pid: 55
+
+server 'app-0' : ACTIVE
+  password: missing
+  watchdog-user: root
+  user: root
+  root: /opt/juanek/resin
+  conf: /opt/juanek/resin/conf/resin.xml
+  pid: 118
+  uptime: 0 days 00h00
+
+➜  docker-resin (jdk17) docker logs dockerResin466                                                                                                                       ✭ ✱
+Resin/4.0.66 launching watchdog at 127.0.0.1:6600
+Resin/4.0.66 started -server 'app-0' for watchdog at 127.0.0.1:6600 with foreground
+➜  docker-resin (jdk17) docker stop dockerResin466                                                                                                                       ✭ ✱
+dockerResin466
+
